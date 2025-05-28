@@ -1,211 +1,141 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-<style>
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap");
-
-*,
-*::before,
-*::after {
-  -webkit-box-sizing: border-box !important;
-  -moz-box-sizing: border-box !important;
-  box-sizing: border-box !important;
-}
-
-body {
-  font-family: "Noto Sans TC", sans-serif;
-  line-height: 1.5;
-}
-
-* {
-  /* outline: solid 1px #cc0000; */
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-  border: 0;
-}
-
-ul,
-li {
-  list-style: none;
-}
-
-a {
-  display: block;
-  text-decoration: none;
-}
-
-a:hover {
-}
-
-a:focus,
-a:hover {
-  text-decoration: none;
-}
-
-.clear {
-  clear: both;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  padding: 0;
-  margin: 0;
-}
-
-.fs-3 {
-  font-size: 28px;
-}
-
-.fs-4 {
-  font-size: 24px;
-}
-
-.fs-6 {
-  font-size: 16px;
-}
-
-.container {
-  max-width: 1296px;
-  margin: 0 auto;
-  @media (max-width: 767px) {
-    max-width: 100%;
-    padding: 0px 12px 0px 12px;
-  }
-}
-
-.card_group {
-  width: 100%;
-  margin: 0 auto;
-  padding-bottom: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  @media (min-width: 768px) and (max-width: 1295px) {
-    justify-content: space-between;
-    gap:12px;
-    padding:0 12px;
-}
-
-.card {
-  width: 416px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 40px;
-  @media (min-width: 768px) and (max-width: 1295px) {
-    width: calc(50% - 16px);
-  }
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-}
-
-.cover {
-  max-width: 100%;
-  width: 100%;
-  height: auto;
-}
-
-.cover img {
-  width: 100%;
-}
-
-.card_content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.date {
-  font-weight: 500;
-  line-height: 150%;
-  letter-spacing: 0%;
-  margin-bottom: 4px;
-}
-
-.tag {
-  color: #0027d5;
-  font-weight: 500;
-  line-height: 150%;
-  letter-spacing: 0%;
-  display: flex;
-}
-
-.tag span a {
-  color: #0027d5;
-}
-
-.hot {
-  background: #0027d5;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 150%;
-  border-radius: 99px;
-  padding: 6px 12px;
-  display: inline-block;
-  margin-left: 8px;
-}
-
-.card_title {
-  font-weight: 700;
-  line-height: 150%;
-  letter-spacing: 0%;
-  margin-bottom: 8px;
-}
-
-.desc {
-  color: #4b4b4b;
-  font-weight: 500;
-  line-height: 150%;
-  letter-spacing: 0%;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.oneLine {
-  padding-top: 0.5em;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.btn {
-  width: auto;
-  height: auto;
-  font-weight: 500;
-  line-height: 150%;
-  border-radius: 99px;
-  border: 1px solid #000000;
-  padding: 8px 16px;
-  display: inline-block;
-}
-
-.btn a {
-  color: #4b4b4b;
-}
-
-</style>
 <body>
 
-    
-    <div class="container">
+  <header>
+    <nav>
+      <div class="container">
+        <div class="content">
+          <ul class="navbar-list">
+            <li><a href="#">首頁</a></li>
+            <li><a href="#">部落格</a></li>
+          </ul>
+        </div>  
+    </nav>
+  </header>
+
+  <div class="container-fluid">
+    <div class="hero">
+      <div class="section_L">
+        <img src="./images/desktop/index/Hero Section.png" alt="">
+      </div>
+      <div class="section_R">
+        <div class="title">
+          <h1>Alyse Wang</h1>
+          <p>前端工程師 & 職涯諮詢師</p>
+        </div>
+      </div>
+    </div>
+    <div class="intro_text">
+      <div class="hero_desc">
+        <p>嗨，我是Alyse一名深耕前端技術的工程師。</p>
+        <p>擅長 React、Vue 等框架，同時熱愛為轉職與新手工程師提供職涯指導。邀請你與我一起，開啟更具潛能的程式與職涯之旅！</p>
+        <ul>
+          <li><a href="https://www.youtube.com/" target="_blank"><img src="./images/desktop/index/onlyIcon.png" alt="youtube"></a></li>
+          <li><a href="https://podcasts.apple.com/tw/browse" target="_blank"><img src="./images/desktop/index/onlyIcon-1.png" alt="podcast"></a></li>
+          <li><a href="https://www.facebook.com/" target="_blank"><img src="./images/desktop/index/onlyIcon-2.png" alt="facebook"></a></li>
+          <li><a href="https://www.linkedin.com/" target="_blank"><img src="./images/desktop/index/icons8-linkedin.png" alt="linkedin"></a></li>
+          <li><a href="https://www.instagram.com/" target="_blank"><img src="./images/desktop/index/onlyIcon-3.png" alt="instagram"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="service">
+      <h2>專業服務與方案</h2>
+      <ul>
+        <li class="service_item">
+            <div class="photo"><img src="./images/desktop/index/photo.png" alt=""></div>
+            <div class="content">
+              <div class="dash"><img src="./images/desktop/index/dash-lg.png" alt=""></div>
+              <h3>履歷健檢</h3>
+              <p>履歷是打開機會之門的第一步。讓我協助你突顯專業技術與核心能力，並透過簡短模擬面試為你加分，讓面試官第一眼就被你吸引。</p>
+            </div>
+        </li>
+        <li class="service_item service_item-reverse">
+          <div class="photo"><img src="./images/desktop/index/photo2.png" alt=""></div>
+          <div class="content">
+            <div class="dash"><img src="./images/desktop/index/dash-lg.png" alt=""></div>
+            <h3>線上諮詢</h3>
+            <p>想快速解決前端學習瓶頸，或需要專業職涯指引？透過線上一對一諮詢，我將協助你更有方向地邁進。</p>
+          </div>
+      </li>
+        <li class="service_item">
+          <div class="photo"><img src="./images/desktop/index/photo3.png" alt=""></div>
+          <div class="content">
+            <div class="dash"><img src="./images/desktop/index/dash-lg.png" alt=""></div>
+            <h3>網頁開發</h3>
+            <p>想打造高效能、具美感的網站？我提供從需求訪談到架構實作的一站式服務，讓你的品牌與產品在線上脫穎而出。</p>
+          </div>
+      </li>
+      <li class="service_item service_item-reverse">
+        <div class="photo"><img src="./images/desktop/index/photo4.png" alt=""></div>
+        <div class="content">
+          <div class="dash"><img src="./images/desktop/index/dash-lg.png" alt=""></div>
+          <h3>企業內訓</h3>
+          <p>想讓團隊快速掌握前端最新技術或優化現有專案流程？我可協助打造專業、實用的企業內訓課程，一次解決團隊痛點。</p>
+        </div>
+    </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="blog">
+      <h2>部落格精選</h2>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stories">
+      <h2>職涯諮詢成功案例</h2>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="newsletter">
+      <div class="section_L">
+        <img src="./images/desktop/index/photo9.png" alt="">
+      </div>
+      <div class="section_R info">
+        <div class="newsletter_Content">
+          <h2>訂閱電子報</h2>
+          <p>立即訂閱，搶先掌握前端 x 職涯的獨家資訊！</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="contact">
+      <h2>與我聯繫</h2>
+      <ul>
+        <li><a href="mailto:alysewang@hexschool.com"><div class="contact_List"><span>alysewang@hexschool.com 合作洽談</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+        <li><a href="https://www.youtube.com/"><div class="contact_List"><img src="./images/desktop/index/onlyIcon.png" alt="Youtube"> <span>Youtube 職涯諮詢室</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+        <li><a href="https://podcasts.apple.com/tw/browse"><div class="contact_List"><img src="./images/desktop/index/onlyIcon-1.png" alt="podcast"> <span>podcast 職涯諮詢室</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+        <li><a href="https://www.facebook.com/"><div class="contact_List"><img src="./images/desktop/index/onlyIcon-2.png" alt="Facebook"> <span>Facebook 前端社群</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+        <li><a href="https://www.linkedin.com/"><div class="contact_List"><img src="./images/desktop/index/icons8-linkedin.png" alt="linkedin"> <span>linkedin 職涯交流</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+        <li><a href="https://www.instagram.com/"><div class="contact_List"><img src="./images/desktop/index/onlyIcon-3.png" alt="Instagram"> <span>Instagram 日常分享</span></div><img src="./images/desktop/index/arrow-right.png" alt=""></a></li>
+      </ul>
+    </div>
+  </div>
+
+<footer class="footer">
+  © 2025 Alyse Wang. All rights reserved.
+</footer>
+
+    <!-- <div class="container">
         <ul class="card_group">
           <li class="card">
             <div class="cover">
@@ -480,6 +410,6 @@ h5 {
             </div>
           </li>
         </ul>
-      </div>
+    </div> -->
 </body>
 </html>
