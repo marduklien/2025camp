@@ -1,0 +1,177 @@
+
+/* service */
+
+.service {
+  width: 100%;
+}
+
+.service h2 {
+  padding-bottom: 32px;
+}
+
+.service ul {
+  display: flex;
+  gap: 64px;
+  padding: 0 110px;
+  flex-direction: column;
+     @media (max-width: 767px) {
+      gap: 32px;
+  }
+}
+
+.service_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 320px;
+    @media (max-width: 767px) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+.service_item-reverse {
+  flex-direction: row-reverse;
+    @media (max-width: 767px) {
+    flex-direction: column;
+  }
+
+}
+
+.service_item .photo {
+  width: 636px;
+}
+
+.service_item .content { 
+  width: 480px;
+  background-color: #FFF;
+  padding: 24px;
+  margin-left: -100px;
+}
+
+.service_item-reverse .content{
+  margin-right: -100px;
+  z-index: 1;
+}
+
+.service_item .content h3 {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.service_item .content p {
+  font-size: 16px;
+  line-height: 150%;
+}
+
+/* blog */
+
+.feature {
+  padding: 80px 0;
+}
+
+.feature-wrapper {
+  position: relative;
+}
+
+.feature .swiper {
+  overflow: hidden;
+}
+
+.feature .swiper-wrapper {
+  overflow: visible;
+}
+
+.feature .slider-btn {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0027d5;
+}
+
+.feature .slider-btn-prev {
+  left: -64px;
+}
+
+.feature .slider-btn-next {
+  right: -64px;
+}
+
+.feature .swiper-button-disabled {
+  color: #b2bef2;
+}
+
+@media (max-width: 1500px) {
+  .feature .slider-btn {
+    position: static;
+    transform: translateY(0);
+  }
+  .feature .slider-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+  .feature .swiper {
+    margin-bottom: 32px;
+  }
+}
+
+
+/* stories */
+
+/* newsletter */
+
+.newsletter {
+  display: flex;
+    @media (max-width: 767px) {
+    flex-direction: column;
+  }
+}
+
+.newsletter .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newsletter_Content {
+  padding:144px 80px ;
+  background-color: #FFF;
+}
+
+
+/* contact */
+
+.contact {
+  background: #FBFBFB;
+}
+
+.contact h2 {
+  padding-bottom: 24px;
+}
+
+.contact li {
+  width: 100%;
+  padding: 16px 0 16px 0px;
+  border-bottom: #000 1px solid;
+}
+
+.contact li a {
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} 
+
+.contact li a span {
+  font-size: 28px;
+} 
+
+.contact_List {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
