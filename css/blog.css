@@ -217,6 +217,7 @@
   width: 328px;
   border-radius: 9999px;
     @media (max-width: 767px) {
+      width:100%;
   }
 }
 
