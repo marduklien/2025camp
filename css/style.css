@@ -147,6 +147,9 @@ h2 {
 .heroWrap {
   width: 100%;
   height: calc(100vh - 90px);
+    @media (max-width: 767px) {
+   height: auto;
+  }
 }
 
 .blogWrap {
