@@ -47,9 +47,13 @@
     /* 簡單淡入 */
     .fade-in { animation: fade .18s ease-out; }
     @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+      /* 讓按鈕在模擬器中更明顯 */
+  button { padding: 15px; margin: 10px; font-size: 16px; z-index: 9999; position: relative; }
   </style>
 </head>
 <body>
+<button onclick="screen.orientation.lock('landscape');">轉為橫向</button>
+<button onclick="screen.orientation.lock('portrait');">轉為直向</button>
 
   <!-- 直式影片列表 -->
   <div class="video-list" id="list">
@@ -58,7 +62,7 @@
       <p>Tears of Steel</p>
     </div>
     <div class="video-item" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="影片2">
+      <img src="./video/videoCover2.png" alt="影片2">
       <p>Big Buck Bunny (720p, 10s)</p>
     </div>
   </div>
@@ -132,6 +136,8 @@
     document.addEventListener('touchmove', (e) => {
       if (container.style.display === 'block') e.preventDefault();
     }, { passive: false });
+
+
   </script>
 </body>
 </html>
