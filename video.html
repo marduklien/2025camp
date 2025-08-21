@@ -1,76 +1,70 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>影音網頁 Demo 強制橫式 + 返回鍵</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>影音網頁 Demo 強制橫式 + 返回鍵（修正版）</title>
   <style>
-    body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
+    :root { color-scheme: dark; }
+    html, body { margin: 0; height: 100%; background: #111; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif; }
+    body { overscroll-behavior: none; }
+
     .video-list { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
-    .video-item { display: flex; align-items: center; background: #222; border-radius: 10px; overflow: hidden; cursor: pointer; }
+    .video-item { display: flex; align-items: center; background: #222; border-radius: 12px; overflow: hidden; cursor: pointer; }
     .video-item img { width: 120px; height: 180px; object-fit: cover; }
-    .video-item p { margin-left: 12px; }
+    .video-item p { margin: 0 0 0 12px; }
 
     #player-container {
       display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: black;
+      position: fixed; inset: 0;
+      background: #000;
       z-index: 9999;
       overflow: hidden;
+      touch-action: none;
     }
 
-    /* 強制橫向容器 */
+    /* 旋轉容器：先 translate(-50%, -50%) 再 rotate，較穩定 */
     #player-wrapper {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 100vh;
-      height: 100vw;
-      transform: rotate(90deg) translate(-50%, -50%);
+      position: absolute; top: 50%; left: 50%;
       transform-origin: center center;
-      background: black;
+      transform: translate(-50%, -50%) rotate(90deg);
+      background: #000;
     }
 
     #player {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: black;
+      width: 100%; height: 100%;
+      object-fit: contain; background: #000;
     }
 
-    /* 返回鍵樣式 */
     #back-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
+      position: absolute; top: max(10px, env(safe-area-inset-top)); left: max(10px, env(safe-area-inset-left));
       z-index: 10000;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
+      background: rgba(0,0,0,.6); color: #fff; border: 1px solid rgba(255,255,255,.2);
+      padding: 8px 14px; font-size: 16px; border-radius: 8px; cursor: pointer;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
     }
+
+    /* 簡單淡入 */
+    .fade-in { animation: fade .18s ease-out; }
+    @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
   </style>
 </head>
 <body>
 
   <!-- 直式影片列表 -->
   <div class="video-list" id="list">
-    <div class="video-item" onclick="openVideo('./video/video1.mp4')">
-      <img src="./video/videoCover1.png?text=原始冒險21天" alt="影片1">
-      <p>原始冒險21天</p>
+    <div class="video-item" onclick="openVideo('https://marduklien.github.io/2025camp/video/video1.mp4')">
+      <img src="./video/videoCover1.png" alt="影片1">
+      <p>Tears of Steel</p>
     </div>
     <div class="video-item" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
-      <img src="./video/videoCover2.png?text=原始冒險21天" alt="影片2">
-      <p>原始冒險21天</p>
+      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="影片2">
+      <p>Big Buck Bunny (720p, 10s)</p>
     </div>
   </div>
 
-  <!-- 播放頁 -->
-  <div id="player-container">
+  <!-- 播放頁（強制橫向） -->
+  <div id="player-container" class="fade-in">
     <button id="back-btn" onclick="closeVideo()">返回</button>
     <div id="player-wrapper">
       <video id="player" controls playsinline></video>
@@ -78,45 +72,66 @@
   </div>
 
   <script>
-    const list = document.getElementById("list");
-    const container = document.getElementById("player-container");
-    const player = document.getElementById("player");
+    const list = document.getElementById('list');
+    const container = document.getElementById('player-container');
+    const wrapper = document.getElementById('player-wrapper');
+    const player = document.getElementById('player');
+
+    // 依螢幕即時尺寸，設定旋轉後容器大小（寬=視窗高， 高=視窗寬）
+    function fitRotated() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      wrapper.style.width  = vh + 'px';
+      wrapper.style.height = vw + 'px';
+    }
 
     function openVideo(src) {
-      // 切換到播放頁
-      list.style.display = "none";
-      container.style.display = "block";
+      list.style.display = 'none';
+      container.style.display = 'block';
+      fitRotated();
 
-      // 設定影片來源
+      // 推入 history 狀態：攔截 Android 返回鍵
+      history.pushState({ page: 'video' }, '', '#video');
+
+      // 設定並播放
       player.src = src;
-      player.play();
-
-      // 推進一個 history 狀態（用來攔截 Android 返回鍵）
-      history.pushState({ page: "video" }, "", "#video");
+      // 部分瀏覽器需要在使用者點擊事件後立即呼叫 play；失敗時不報錯
+      const p = player.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
     }
 
     function closeVideo() {
-      // 停止播放
-      player.pause();
-      player.src = "";
+      // 停止並釋放
+      try { player.pause(); } catch {}
+      player.removeAttribute('src');
+      player.load();
 
-      // 回到列表
-      container.style.display = "none";
-      list.style.display = "block";
+      container.style.display = 'none';
+      list.style.display = 'block';
 
-      // 返回 history 狀態（避免 Android 返回直接退出網頁）
-      if (location.hash === "#video") {
+      // 從 #video 返回，避免下次返回直接離站
+      if (location.hash === '#video') {
         history.back();
       }
     }
 
-    // 監聽 Android 返回鍵 (popstate)
-    window.addEventListener("popstate", (event) => {
-      if (container.style.display === "block") {
-        // 若正在播放頁，則返回列表
-        closeVideo();
+    // Android 實體返回鍵
+    window.addEventListener('popstate', () => {
+      if (container.style.display === 'block') {
+        // 若正處於播放頁，先關閉播放器
+        container.style.display = 'none';
+        list.style.display = 'block';
       }
     });
+
+    // 視窗變動時重新計算（含地址列縮放、旋轉、折疊導航列等）
+    window.addEventListener('resize', fitRotated);
+    window.addEventListener('orientationchange', () => setTimeout(fitRotated, 100));
+
+    // 防止 iOS Safari 手勢返回誤觸（可選）
+    document.addEventListener('touchmove', (e) => {
+      if (container.style.display === 'block') e.preventDefault();
+    }, { passive: false });
   </script>
 </body>
 </html>
