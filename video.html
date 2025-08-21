@@ -53,19 +53,24 @@
 
   <!-- 直式影片列表 -->
   <div class="video-list" id="list">
-    <div class="video-item" onclick="openVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=影片1" alt="影片1">
-      <p>影片 1</p>
+    <div class="video-item" onclick="openVideo('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
+      <img src="https://via.placeholder.com/120x180.png?text=Tears+of+Steel" alt="Tears of Steel">
+      <p>Tears of Steel</p>
     </div>
-    <div class="video-item" onclick="openVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=影片2" alt="影片2">
-      <p>影片 2</p>
+    <div class="video-item" onclick="openVideo('https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4')">
+      <img src="https://via.placeholder.com/120x180.png?text=File+Example+480p" alt="File Example">
+      <p>File Example 480p</p>
+    </div>
+    <div class="video-item" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
+      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="Big Buck Bunny">
+      <p>Big Buck Bunny (720p, 10s)</p>
     </div>
   </div>
 
   <!-- 播放器容器 -->
   <div id="player-container">
     <video id="player" controls playsinline></video>
+    <div id="ios-hint">為獲得最佳體驗，請將手機橫向觀看</div>
   </div>
 
   <script>
