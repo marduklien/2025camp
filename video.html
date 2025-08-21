@@ -3,116 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>手機影音網頁</title>
+  <title>影音播放測試</title>
   <style>
     body {
       margin: 0;
+      background: #000;
       font-family: sans-serif;
-      background: #000;
-      color: #fff;
     }
-
-    /* 影片列表 */
-    .video-list {
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10px;
-    }
-    .video-item {
-      background: #222;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* 播放器容器 */
-    .player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vh;   /* 強制橫式 */
-      height: 100vw;  /* 強制橫式 */
-      background: #000;
-      transform: rotate(90deg);
-      transform-origin: center center;
-      display: none;
-      align-items: center;
       justify-content: center;
-      z-index: 999;
+      align-items: center;
+      background: #000;
     }
-
     video {
+      max-width: 100%;
+      max-height: 100%;
+      background: #000;
+    }
+    .cover {
+      position: absolute;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      background: url("https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
-
-    /* 返回鍵 */
-    .back-btn {
+    .cover button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+    }
+    .back-button {
       position: absolute;
       top: 10px;
       left: 10px;
-      z-index: 1000;
-      padding: 8px 12px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
+      padding: 8px 14px;
+      font-size: 14px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      display: none;
+      z-index: 20;
     }
   </style>
 </head>
 <body>
-  <!-- 影片列表 -->
-  <div class="video-list">
-    <div class="video-item" data-src="https://www.w3schools.com/html/mov_bbb.mp4">範例影片 1</div>
-    <div class="video-item" data-src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4">範例影片 2</div>
-  </div>
-
-  <!-- 播放器區塊 -->
-  <div class="player-container" id="playerContainer">
-    <button class="back-btn" id="backBtn">返回</button>
-    <video id="videoPlayer" controls playsinline></video>
+  <div class="video-container">
+    <video id="video" playsinline controls>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+    <div class="cover" id="cover">
+      <button>▶ 播放影片</button>
+    </div>
+    <button class="back-button" id="backBtn">返回</button>
   </div>
 
   <script>
-    const videoItems = document.querySelectorAll('.video-item');
-    const playerContainer = document.getElementById('playerContainer');
-    const videoPlayer = document.getElementById('videoPlayer');
-    const backBtn = document.getElementById('backBtn');
+    const video = document.getElementById("video");
+    const cover = document.getElementById("cover");
+    const backBtn = document.getElementById("backBtn");
 
-    // 開啟影片
-    videoItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const src = item.getAttribute('data-src');
-        videoPlayer.src = src;
-        playerContainer.style.display = 'flex';
-        videoPlayer.play();
+    // 點擊封面播放
+    cover.addEventListener("click", async () => {
+      cover.style.display = "none";
+      backBtn.style.display = "block";
+      video.play();
 
-        // 推入一個歷史紀錄，攔截 Android 返回鍵
-        history.pushState({ playing: true }, "");
-      });
-    });
-
-    // 返回按鈕
-    backBtn.addEventListener('click', exitPlayer);
-
-    // Android 返回鍵監聽
-    window.addEventListener("popstate", function (event) {
-      if (playerContainer.style.display === 'flex') {
-        exitPlayer();
+      try {
+        // 嘗試鎖定橫向
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock("landscape");
+        } else if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        }
+      } catch (err) {
+        console.warn("裝置不支援螢幕方向鎖定，改用全螢幕", err);
+        if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        }
       }
     });
 
-    function exitPlayer() {
-      videoPlayer.pause();
-      videoPlayer.src = "";
-      playerContainer.style.display = 'none';
+    // 返回鍵
+    backBtn.addEventListener("click", exitVideo);
 
-      // 回到原本的歷史紀錄
-      if (history.state && history.state.playing) {
-        history.back();
+    // Android 實體返回鍵
+    window.addEventListener("popstate", () => {
+      exitVideo();
+    });
+
+    function exitVideo() {
+      video.pause();
+      cover.style.display = "flex";
+      backBtn.style.display = "none";
+
+      // 嘗試解鎖方向
+      if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+      }
+
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
       }
     }
   </script>
