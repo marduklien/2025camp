@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>影音網頁 Demo 強制橫式</title>
+  <title>影音網頁 Demo 強制橫式 + 返回鍵</title>
   <style>
     body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
     .video-list { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
     .video-item { display: flex; align-items: center; background: #222; border-radius: 10px; overflow: hidden; cursor: pointer; }
     .video-item img { width: 120px; height: 180px; object-fit: cover; }
     .video-item p { margin-left: 12px; }
-    
+
     #player-container {
       display: none;
       position: fixed;
@@ -21,13 +21,12 @@
       overflow: hidden;
     }
 
-    /* 旋轉橫式 */
+    /* 強制橫向容器 */
     #player-wrapper {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100vh;   /* 注意這裡用 vh */
-      height: 100vw;  /* 注意這裡用 vw */
+      top: 50%; left: 50%;
+      width: 100vh;
+      height: 100vw;
       transform: rotate(90deg) translate(-50%, -50%);
       transform-origin: center center;
       background: black;
@@ -39,39 +38,85 @@
       object-fit: contain;
       background: black;
     }
+
+    /* 返回鍵樣式 */
+    #back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
+  <!-- 直式影片列表 -->
   <div class="video-list" id="list">
-    <div class="video-item" onclick="openVideo('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=Tears+of+Steel" alt="影片1">
-      <p>Tears of Steel</p>
+    <div class="video-item" onclick="openVideo('./video/video1.mp4')">
+      <img src="./video/videoCover1.png?text=原始冒險21天" alt="影片1">
+      <p>原始冒險21天</p>
     </div>
     <div class="video-item" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="影片2">
-      <p>Big Buck Bunny</p>
+      <img src="./video/videoCover2.png?text=原始冒險21天" alt="影片2">
+      <p>原始冒險21天</p>
     </div>
   </div>
 
+  <!-- 播放頁 -->
   <div id="player-container">
+    <button id="back-btn" onclick="closeVideo()">< 返回</button>
     <div id="player-wrapper">
       <video id="player" controls playsinline></video>
     </div>
   </div>
 
   <script>
-    async function openVideo(src) {
-      const list = document.getElementById("list");
-      const container = document.getElementById("player-container");
-      const player = document.getElementById("player");
+    const list = document.getElementById("list");
+    const container = document.getElementById("player-container");
+    const player = document.getElementById("player");
 
+    function openVideo(src) {
+      // 切換到播放頁
       list.style.display = "none";
       container.style.display = "block";
 
+      // 設定影片來源
       player.src = src;
-      await player.play();
+      player.play();
+
+      // 推進一個 history 狀態（用來攔截 Android 返回鍵）
+      history.pushState({ page: "video" }, "", "#video");
     }
+
+    function closeVideo() {
+      // 停止播放
+      player.pause();
+      player.src = "";
+
+      // 回到列表
+      container.style.display = "none";
+      list.style.display = "block";
+
+      // 返回 history 狀態（避免 Android 返回直接退出網頁）
+      if (location.hash === "#video") {
+        history.back();
+      }
+    }
+
+    // 監聽 Android 返回鍵 (popstate)
+    window.addEventListener("popstate", (event) => {
+      if (container.style.display === "block") {
+        // 若正在播放頁，則返回列表
+        closeVideo();
+      }
+    });
   </script>
 </body>
 </html>
