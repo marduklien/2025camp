@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>影音網頁 Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+    }
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+    }
+    .video-item {
+      display: flex;
+      align-items: center;
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .video-item img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+    }
+    .video-item p {
+      margin-left: 12px;
+    }
+    #player-container {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      z-index: 9999;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 直式影片列表 -->
+  <div class="video-list" id="list">
+    <div class="video-item" onclick="openVideo('sample1.mp4')">
+      <img src="https://via.placeholder.com/120x180.png?text=影片1" alt="影片1">
+      <p>影片 1</p>
+    </div>
+    <div class="video-item" onclick="openVideo('sample2.mp4')">
+      <img src="https://via.placeholder.com/120x180.png?text=影片2" alt="影片2">
+      <p>影片 2</p>
+    </div>
+  </div>
+
+  <!-- 播放器容器 -->
+  <div id="player-container">
+    <video id="player" controls playsinline></video>
+  </div>
+
+  <script>
+    async function openVideo(src) {
+      const list = document.getElementById("list");
+      const container = document.getElementById("player-container");
+      const player = document.getElementById("player");
+
+      // 切換到播放器畫面
+      list.style.display = "none";
+      container.style.display = "block";
+
+      player.src = src;
+      await player.play();
+
+      try {
+        // 嘗試進入全螢幕
+        if (player.requestFullscreen) {
+          await player.requestFullscreen();
+        } else if (player.webkitRequestFullscreen) {
+          await player.webkitRequestFullscreen(); // iOS Safari
+        }
+
+        // 嘗試鎖定橫向（Android Chrome）
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock("landscape");
+        }
+      } catch (err) {
+        console.log("全螢幕或橫向鎖定失敗：", err);
+      }
+    }
+  </script>
+</body>
+</html>
