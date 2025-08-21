@@ -3,44 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>影音網頁 Demo</title>
+  <title>影音網頁 Demo 強制橫式</title>
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #111;
-      color: #fff;
-    }
-    .video-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 16px;
-    }
-    .video-item {
-      display: flex;
-      align-items: center;
-      background: #222;
-      border-radius: 10px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .video-item img {
-      width: 120px;
-      height: 180px;
-      object-fit: cover;
-    }
-    .video-item p {
-      margin-left: 12px;
-    }
+    body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
+    .video-list { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+    .video-item { display: flex; align-items: center; background: #222; border-radius: 10px; overflow: hidden; cursor: pointer; }
+    .video-item img { width: 120px; height: 180px; object-fit: cover; }
+    .video-item p { margin-left: 12px; }
+    
     #player-container {
       display: none;
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100vw; height: 100vh;
       background: black;
       z-index: 9999;
+      overflow: hidden;
     }
+
+    /* 旋轉橫式 */
+    #player-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vh;   /* 注意這裡用 vh */
+      height: 100vw;  /* 注意這裡用 vw */
+      transform: rotate(90deg) translate(-50%, -50%);
+      transform-origin: center center;
+      background: black;
+    }
+
     #player {
       width: 100%;
       height: 100%;
@@ -51,26 +43,21 @@
 </head>
 <body>
 
-  <!-- 直式影片列表 -->
   <div class="video-list" id="list">
     <div class="video-item" onclick="openVideo('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=Tears+of+Steel" alt="Tears of Steel">
+      <img src="https://via.placeholder.com/120x180.png?text=Tears+of+Steel" alt="影片1">
       <p>Tears of Steel</p>
     </div>
-    <div class="video-item" onclick="openVideo('https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=File+Example+480p" alt="File Example">
-      <p>File Example 480p</p>
-    </div>
     <div class="video-item" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
-      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="Big Buck Bunny">
-      <p>Big Buck Bunny (720p, 10s)</p>
+      <img src="https://via.placeholder.com/120x180.png?text=Big+Buck+Bunny" alt="影片2">
+      <p>Big Buck Bunny</p>
     </div>
   </div>
 
-  <!-- 播放器容器 -->
   <div id="player-container">
-    <video id="player" controls playsinline></video>
-    <div id="ios-hint">為獲得最佳體驗，請將手機橫向觀看</div>
+    <div id="player-wrapper">
+      <video id="player" controls playsinline></video>
+    </div>
   </div>
 
   <script>
@@ -79,28 +66,11 @@
       const container = document.getElementById("player-container");
       const player = document.getElementById("player");
 
-      // 切換到播放器畫面
       list.style.display = "none";
       container.style.display = "block";
 
       player.src = src;
       await player.play();
-
-      try {
-        // 嘗試進入全螢幕
-        if (player.requestFullscreen) {
-          await player.requestFullscreen();
-        } else if (player.webkitRequestFullscreen) {
-          await player.webkitRequestFullscreen(); // iOS Safari
-        }
-
-        // 嘗試鎖定橫向（Android Chrome）
-        if (screen.orientation && screen.orientation.lock) {
-          await screen.orientation.lock("landscape");
-        }
-      } catch (err) {
-        console.log("全螢幕或橫向鎖定失敗：", err);
-      }
     }
   </script>
 </body>
